@@ -1,0 +1,15 @@
+.navbar_wrapper a{
+    padding-left: 30px ;
+}
+.App{
+    text-align: center;
+}
+/* global.css */
+
+body {
+    background: url('https://i.pinimg.com/736x/e7/11/a4/e711a431523cd34eab2fcbb7cea661d3.jpg') center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+   
+}

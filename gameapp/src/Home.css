@@ -1,0 +1,68 @@
+/* Home.css */
+
+.hero-section {
+   
+    color: white;
+    padding: 100px 0;
+    text-align: left;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.hero-image {
+    border-radius: 50%;
+    width: 500px; /* Fixed size for the circular image */
+    height: 500px; /* Fixed size for the circular image */
+    object-fit: cover;
+    margin-left: 60px;
+}
+
+.sections {
+    color: white;
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section img {
+    width: 100%;
+    height:     300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.section p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+
+
+/* New styles for the highlight section */
+.highlight-section {
+    background-color: white;
+    color: red;
+    padding: 40px 20px;
+}
+
+.highlight-section .hero-title,
+.highlight-section .hero-subtitle,
+.highlight-section strong {
+    color: red;
+}
