@@ -27,6 +27,8 @@ class EventController extends Controller
         $event->game_id = $request->input('game_id');
         $event->save();
 
+        
+
         return response()->json($event, 201);
     }
 

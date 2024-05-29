@@ -1,0 +1,14 @@
+.news-card {
+    width: 100%;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.news-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.news-card .btn {
+    width: 45%;
+}

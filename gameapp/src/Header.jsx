@@ -21,15 +21,19 @@ function Header() {
                         {localStorage.getItem('user-info') ?
                             <>
                                 <Nav.Link as={Link} to="/home">Home</Nav.Link>
+                                <Nav.Link as={Link} to="/news">News</Nav.Link>
                                 <Nav.Link as={Link} to="/games">Games</Nav.Link>
                                 <Nav.Link as={Link} to="/emus">Emulators</Nav.Link>
                                 <Nav.Link as={Link} to="/events">Events</Nav.Link>
+                                <Nav.Link as={Link} to="/favorites">Favorites</Nav.Link>
                                 <NavDropdown title="Admin Tools" id="basic-nav-dropdown">
                                     <NavDropdown.Item as={Link} to="/">Manage Games</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/listemu">Manage Emulators</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/listplat">Manage Platforms</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/listcat">Manage Categories</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/listevent">Manage Events</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/manage-news">Manage News</NavDropdown.Item>
+
 
                                 </NavDropdown>
                             </>

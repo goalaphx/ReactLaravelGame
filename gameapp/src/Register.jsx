@@ -7,7 +7,7 @@ function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [reEnterEmail, setReEnterEmail] = useState("");
+    const [reEnterPassword, setReEnterPassword] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,8 +19,8 @@ function Register() {
     async function signUp(event) {
         event.preventDefault();
 
-        if (email !== reEnterEmail) {
-            alert("Emails don't match");
+        if (password !== reEnterPassword) {
+            alert("Passwords don't match");
             return;
         }
 
@@ -61,7 +61,46 @@ function Register() {
                     <Col sm={6}>
                         <h1 className="my-4 text-center">Register</h1>
                         <Form onSubmit={signUp}>
-                            {/* Form fields */}
+                            <Form.Group controlId="name" className="mb-3">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Enter your username"
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="email" className="mb-3">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Enter your email"
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="password" className="mb-3">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Enter your password"
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="reEnterPassword" className="mb-3">
+                                <Form.Label>Re-enter Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    value={reEnterPassword}
+                                    onChange={(e) => setReEnterPassword(e.target.value)}
+                                    placeholder="Re-enter your password"
+                                />
+                            </Form.Group>
+
                             <Button variant="primary" type="submit" className="w-100 mb-3">
                                 Register
                             </Button>

@@ -1,24 +1,68 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 import './GamePage.css'; // import the CSS file
 
 function EmuPage() {
-    const [emulators, setEmu] = useState([]);
+    const [emulators, setEmulators] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
         async function fetchEmu() {
             try {
                 let result = await fetch('http://127.0.0.1:8000/api/listemu');
                 result = await result.json();
-                setEmu(result);
+                setEmulators(result);
             } catch (error) {
-                console.error('Error fetching the emu list:', error);
+                console.error('Error fetching the emulator list:', error);
             }
         }
 
         fetchEmu();
     }, []);
+
+    useEffect(() => {
+        async function fetchFavorites() {
+            const userInfo = JSON.parse(localStorage.getItem('user-info'));
+            if (!userInfo) return;
+
+            try {
+                let response = await fetch(`http://127.0.0.1:8000/api/favorites?user_id=${userInfo.id}`);
+                let data = await response.json();
+                setFavorites(data);
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
+            }
+        }
+
+        fetchFavorites();
+    }, []);
+
+    async function handleAddFavorite(emuId) {
+        const userInfo = JSON.parse(localStorage.getItem('user-info'));
+        if (!userInfo) {
+            alert('Please login to add favorites');
+            return;
+        }
+
+        try {
+            await fetch('http://127.0.0.1:8000/api/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ emulator_id: emuId, user_id: userInfo.id })
+            });
+            alert('Added to favorites');
+            setFavorites([...favorites, { emulator_id: emuId }]);
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    }
+
+    const isFavorite = (id) => favorites.some(fav => fav.emulator_id === id);
 
     return (
         <>
@@ -40,11 +84,15 @@ function EmuPage() {
                                                 <img src={`http://127.0.0.1:8000/${platform.image}`} alt={platform.name} />
                                             </div>
                                         ))}
-
                                     </Card.Text>
                                     <Button variant="danger" href={emu.link} target="_blank" rel="noopener noreferrer">
                                         More Info
                                     </Button>
+                                    {!isFavorite(emu.id) && (
+                                        <Button variant="primary" onClick={() => handleAddFavorite(emu.id)} className="ml-2">
+                                            <FontAwesomeIcon icon={faHeart} />
+                                        </Button>
+                                    )}
                                 </Card.Body>
                             </Card>
                         </Col>

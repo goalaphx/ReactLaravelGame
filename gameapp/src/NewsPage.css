@@ -1,0 +1,10 @@
+.news-detail-card {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.news-detail-card img {
+    height: 300px;
+    object-fit: cover;
+}

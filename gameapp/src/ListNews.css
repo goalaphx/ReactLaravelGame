@@ -1,0 +1,25 @@
+.news-card {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.news-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.news-card .card-body .card-text {
+    flex-grow: 1;
+}
+
+.news-card .btn {
+    align-self: flex-end;
+}

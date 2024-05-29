@@ -8,6 +8,9 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\EmuController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\NotificationController;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -41,4 +44,15 @@ Route::get('events/{id}', [EventController::class, 'getEvent']);
 Route::post('events/update/{id}', [EventController::class, 'updateEvent']);
 Route::delete('events/delete/{id}', [EventController::class, 'delete']);
 Route::get('events/search/{key}', [EventController::class, 'search']);
+Route::post('/news/add', [NewsController::class, 'addNews']);
+Route::get('/news/list', [NewsController::class, 'listNews']);
+Route::get('/news/list', [NewsController::class, 'list']);
+Route::get('/news/{id}', [NewsController::class, 'getNews']);
+Route::post('/news/add', [NewsController::class, 'addNews']);
+Route::post('/news/update/{id}', [NewsController::class, 'updateNews']);
+Route::delete('/news/delete/{id}', [NewsController::class, 'deleteNews']);
+Route::post('/favorites', [FavoriteController::class, 'addFavorite']);
+Route::delete('/favorites/{id}', [FavoriteController::class, 'removeFavorite']);
+Route::get('/favorites', [FavoriteController::class, 'getFavorites']);
+Route::get('/notifications/{id}', [NotificationController::class, 'getNotifications']);
 

@@ -1,24 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 import './GamePage.css';
 
 function GamesPage() {
     const [games, setGames] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        async function fetchGames() {
+        async function fetchData() {
             try {
-                let result = await fetch('http://127.0.0.1:8000/api/list');
-                result = await result.json();
-                setGames(result);
+                let response = await fetch('http://127.0.0.1:8000/api/list');
+                let data = await response.json();
+                setGames(data);
             } catch (error) {
                 console.error('Error fetching the game list:', error);
             }
         }
 
-        fetchGames();
+        fetchData();
     }, []);
+
+    useEffect(() => {
+        async function fetchFavorites() {
+            const userInfo = JSON.parse(localStorage.getItem('user-info'));
+
+            if (!userInfo) {
+                return;
+            }
+
+            try {
+                let response = await fetch(`http://127.0.0.1:8000/api/favorites?user_id=${userInfo.id}`);
+                let data = await response.json();
+                setFavorites(data);
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
+            }
+        }
+
+        fetchFavorites();
+    }, []);
+
+    const isFavorite = (gameId) => {
+        return favorites.some(favorite => favorite.game_id === gameId);
+    };
+
+    async function handleAddFavorite(gameId) {
+        const userInfo = JSON.parse(localStorage.getItem('user-info'));
+
+        if (!userInfo) {
+            alert('Please login to add favorites');
+            return;
+        }
+
+        try {
+            await fetch('http://127.0.0.1:8000/api/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ game_id: gameId, user_id: userInfo.id })
+            });
+            alert('Added to favorites');
+            setFavorites([...favorites, { game_id: gameId }]);
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    }
 
     return (
         <>
@@ -30,19 +80,16 @@ function GamesPage() {
                         <Col md={4} key={game.id} className="mb-4">
                             <Card className="game-card">
                                 <Card.Img variant="top" src={`http://127.0.0.1:8000/${game.img_path}`} />
-                                <Card.Body>     
-                            
+                                <Card.Body>
                                     <Card.Title>{game.name}</Card.Title>
                                     <Card.Text>
-                                        
-                                    <strong>Platforms:</strong><br />
+                                        <strong>Platforms:</strong><br />
                                         {game.platforms.map(platform => (
                                             <div className="platform-image" key={platform.id}>
                                                 <span>{platform.name}</span>
                                                 <img src={`http://127.0.0.1:8000/${platform.image}`} alt={platform.name} />
                                             </div>
                                         ))}
-                                        
                                         <strong>Categories:</strong><br />
                                         {game.categories.map(category => (
                                             <div className="platform-image" key={category.id}>
@@ -50,12 +97,15 @@ function GamesPage() {
                                                 <img src={`http://127.0.0.1:8000/${category.logo}`} alt={category.name} />
                                             </div>
                                         ))}
-                                        
-                                        
                                     </Card.Text>
                                     <Button variant="danger" href={game.link} target="_blank" rel="noopener noreferrer">
                                         More Info
                                     </Button>
+                                    {!isFavorite(game.id) && (
+                                        <Button variant="primary" onClick={() => handleAddFavorite(game.id)} className="ml-2">
+                                            <FontAwesomeIcon icon={faHeart} />
+                                        </Button>
+                                    )}
                                 </Card.Body>
                             </Card>
                         </Col>

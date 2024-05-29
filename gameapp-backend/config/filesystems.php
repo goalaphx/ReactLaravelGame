@@ -75,6 +75,7 @@ return [
         public_path('categoryimg') => storage_path('app/categoryimg'),
         public_path('platformimg') => storage_path('app/platformimg'),
         public_path('eventslogo') => storage_path('app/eventslogo'),
+        public_path('news_images') => storage_path('app/news_images'),
 
     ],
 

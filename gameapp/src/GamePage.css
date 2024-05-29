@@ -13,6 +13,16 @@
     width: 100%;
 }
 
+.game-card .btn {
+    margin-right: 10px;
+}
+
+.game-card .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .game-card .btn-danger {
     background-color: red;
     border-color: red;
