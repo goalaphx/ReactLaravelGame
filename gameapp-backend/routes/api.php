@@ -54,5 +54,7 @@ Route::delete('/news/delete/{id}', [NewsController::class, 'deleteNews']);
 Route::post('/favorites', [FavoriteController::class, 'addFavorite']);
 Route::delete('/favorites/{id}', [FavoriteController::class, 'removeFavorite']);
 Route::get('/favorites', [FavoriteController::class, 'getFavorites']);
-Route::get('/notifications/{id}', [NotificationController::class, 'getNotifications']);
+Route::get('/notifications/{userId}', [NotificationController::class, 'index']);
+Route::post('notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead']);
+Route::delete('notifications/{id}', [NotificationController::class, 'destroy']);
 

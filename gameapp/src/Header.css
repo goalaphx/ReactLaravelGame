@@ -1,0 +1,44 @@
+/* Header.css */
+
+.notification-box {
+    position: relative !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    width: 40px !important; /* Set width for the box */
+    height: 40px !important; /* Set height for the box */
+    border-radius: 50% !important; /* Make it a perfect circle */
+    background-color: #ffffff !important; /* Set background color to white */
+    color: #dc3545 !important; /* Set icon color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Add a subtle shadow */
+    transition: background-color 0.3s, color 0.3s, transform 0.3s !important; /* Add transition effects */
+    border: none !important; /* Remove border */
+}
+
+.notification-box:hover {
+    background-color: orange !important; /* Change background color on hover */
+    color: #ffffff !important; /* Change icon color on hover */
+    transform: scale(1.1)!important; /* Slightly enlarge on hover */
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red; /* Set background color for the count */
+    color: white; /* Set text color for the count */
+    border-radius: 50%; /* Make the count a perfect circle */
+    padding: 3px 6px; /* Add padding */
+    font-size: 12px; /* Set font size */
+    font-weight: bold; /* Make text bold */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.notification-item {
+    margin-bottom: 15px !important; /* Add margin between notification items */
+}
+
+.notification-box .fa-bell {
+    font-size: 20px !important; /* Ensure the bell icon size is appropriate */
+}

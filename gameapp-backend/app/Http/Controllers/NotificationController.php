@@ -3,33 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Favorite;
-use App\Models\Game;
-use App\Models\Emulator;
-use App\Models\Event;
-use App\Models\News;
+use App\Models\Notification;
 
 class NotificationController extends Controller
 {
-    public function getNotifications(Request $request)
+    public function index(Request $request, $userId)
     {
-        $userId = $request->query('user_id');
-
-        // Get user's favorite games and emulators
-        $favoriteGames = Favorite::where('user_id', $userId)->whereNotNull('game_id')->pluck('game_id');
-        $favoriteEmulators = Favorite::where('user_id', $userId)->whereNotNull('emulator_id')->pluck('emulator_id');
-
-        // Fetch news related to favorite games and emulators
-        $gameNews = News::whereIn('game_id', $favoriteGames)->get();
-        $emulatorNews = News::whereIn('emulator_id', $favoriteEmulators)->get();
-
-        // Fetch events related to favorite games
-        $gameEvents = Event::whereIn('game_id', $favoriteGames)->get();
-
-        // Combine all notifications
-        $notifications = $gameNews->concat($emulatorNews)->concat($gameEvents);
-
+        // Retrieve notifications for the specified user ID
+        $notifications = Notification::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+        
         return response()->json($notifications);
     }
-}
 
+    public function markAsRead(Request $request, $id)
+    {
+        // Mark the notification as read
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
+
+        $notification->read_status = true;
+        $notification->save();
+
+        return response()->json(['message' => 'Notification marked as read'], 200);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        // Delete the notification
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
+
+        $notification->delete();
+
+        return response()->json(['message' => 'Notification deleted successfully'], 200);
+    }
+}

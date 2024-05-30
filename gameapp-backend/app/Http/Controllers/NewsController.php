@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
-use App\Models\Game;
-use App\Models\Emulator;
+use App\Models\Favorite;
+use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
@@ -46,7 +46,25 @@ class NewsController extends Controller
         $news->emulator_id = $request->input('emulator_id');
         $news->save();
 
-        
+        // Generate notifications for users with this game or emulator in favorites
+        $gameId = $request->input('game_id');
+        $emulatorId = $request->input('emulator_id');
+
+        if ($gameId) {
+            $favoriteUsers = Favorite::where('game_id', $gameId)->pluck('user_id');
+        } elseif ($emulatorId) {
+            $favoriteUsers = Favorite::where('emulator_id', $emulatorId)->pluck('user_id');
+        } else {
+            $favoriteUsers = collect();
+        }
+
+        foreach ($favoriteUsers as $userId) {
+            $message = "Check out the news about: " . ($news->game ? $news->game->name : $news->emulator->name);
+            Notification::create([
+                'user_id' => $userId,
+                'message' => $message,
+            ]);
+        }
 
         return response()->json($news, 201);
     }

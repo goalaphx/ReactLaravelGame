@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Game;
+use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
@@ -27,7 +29,24 @@ class EventController extends Controller
         $event->game_id = $request->input('game_id');
         $event->save();
 
-        
+        // Generate notifications for users with this game in favorites
+        $gameId = $request->input('game_id');
+        $users = User::all();
+        foreach ($users as $user) {
+            $favorites = $user->favorites;
+            foreach ($favorites as $favorite) {
+                if ($favorite->game_id == $gameId) {
+                    $gameName = $event->game ? $event->game->name : "";
+                    $message = "Check out the new event for: " . $gameName;
+                    // Create a notification for this user
+                    Notification::create([
+                        'user_id' => $user->id,
+                        'message' => $message,
+                    ]);
+                    break;
+                }
+            }
+        }
 
         return response()->json($event, 201);
     }
@@ -83,7 +102,7 @@ class EventController extends Controller
 
         if ($request->hasFile('logo')) {
             Storage::delete($event->logo);
-            $event->logo_path = $request->file('logo')->store('eventslogo');
+            $event->logo = $request->file('logo')->store('eventslogo');
         }
 
         $event->save();
@@ -94,8 +113,8 @@ class EventController extends Controller
     public function search($key)
     {
         return Event::with('game')
-            ->where('name', 'Like', "%$key%")
-            ->orWhere('description', 'Like', "%$key%")
+            ->where('name', 'LIKE', "%$key%")
+            ->orWhere('description', 'LIKE', "%$key%")
             ->get();
     }
 }
