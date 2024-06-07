@@ -1,0 +1,65 @@
+/* Emulator Card Styling */
+.emu-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.emu-card img {
+    height: 400px; /* Set a fixed height for the images */
+    object-fit: cover; /* Ensure the image covers the specified area while maintaining aspect ratio */
+    object-position: center; /* Center the image within the specified area */
+    width: 100%;
+}
+
+/* Button Styling */
+.emu-card .btn {
+    margin-right: 10px;
+}
+
+.emu-card .btn-primary,
+.emu-card .btn-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48%; /* Ensure the buttons don't overlap and have equal width */
+}
+
+.emu-card .btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Platform Styling */
+.platform-container,
+.category-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.platform-container img,
+.category-container img {
+    width: 30px; /* Adjust the size of the platform image and category logo */
+    height: 30px;
+    margin-right: 5px;
+}
+
+.platform-container span,
+.category-container span {
+    margin-left: 5px;
+}
+
+.platform-image {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1px;
+}
+
+.platform-image img {
+    width: 40px; /* Adjust width as needed */
+    height: 40px; /* Adjust height as needed */
+    margin-left: 5px; /* Add margin for spacing */
+}

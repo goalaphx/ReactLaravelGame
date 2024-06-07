@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import Header from './Header'
 import Footer from './Footer'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import styled from 'styled-components';
 import Login from './Login'
 import Register from './Register'
 import AddGame from './AddGame'
@@ -32,10 +33,17 @@ import AddNews from './AddNews'
 import UpdateNews from './UpdateNews'
 import ManageNews from './ManageNews'
 import FavoritesPage from './FavoritesPage'
+import Profile from './Profile'
+import ManageUsers from './ManageUsers'
 
 
 
-
+export const CustomStyledComponent = styled.div`
+font-family: "Roboto", sans-serif;
+  font-size: 80px; /* Adjust the font size as needed */
+  font-weight: bold; /* Make it bold */
+  color: orange; /* Set the color to blue */
+`;
 
 function App() {
 
@@ -71,6 +79,8 @@ function App() {
             <Route path="/news/:id" element={<Protected Cmp={NewsPage} />} />
             <Route path="/manage-news" element={<Protected Cmp={ManageNews} />} />
             <Route path="/favorites" element={<Protected Cmp={FavoritesPage} />} />
+            <Route path="/profile" element={<Protected Cmp={Profile} />} />
+            <Route path="/manage-users" element={<Protected Cmp={ManageUsers} />} />
           </Routes>
           <Footer></Footer>
 

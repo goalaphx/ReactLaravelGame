@@ -136,7 +136,7 @@ function UpdateNews() {
                             onChange={(e) => setImage(e.target.files[0])}
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit" className="mt-4">
+                    <Button variant="primary" type="submit" className="mt-4 mb-2">
                         Update News
                     </Button>
                 </Form>

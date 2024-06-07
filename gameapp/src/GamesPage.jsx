@@ -3,6 +3,7 @@ import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
+import { CustomStyledComponent } from './App';
 import './GamePage.css';
 
 function GamesPage() {
@@ -15,6 +16,7 @@ function GamesPage() {
                 let response = await fetch('http://127.0.0.1:8000/api/list');
                 let data = await response.json();
                 setGames(data);
+                console.log("Fetched games:", data);
             } catch (error) {
                 console.error('Error fetching the game list:', error);
             }
@@ -35,6 +37,7 @@ function GamesPage() {
                 let response = await fetch(`http://127.0.0.1:8000/api/favorites?user_id=${userInfo.id}`);
                 let data = await response.json();
                 setFavorites(data);
+                console.log("Fetched favorites:", data);
             } catch (error) {
                 console.error('Error fetching favorites:', error);
             }
@@ -44,7 +47,9 @@ function GamesPage() {
     }, []);
 
     const isFavorite = (gameId) => {
-        return favorites.some(favorite => favorite.game_id === gameId);
+        const result = favorites.some(favorite => favorite.game_id === gameId);
+        console.log(`Game ID ${gameId} is favorite:`, result);
+        return result;
     };
 
     async function handleAddFavorite(gameId) {
@@ -64,7 +69,8 @@ function GamesPage() {
                 body: JSON.stringify({ game_id: gameId, user_id: userInfo.id })
             });
             alert('Added to favorites');
-            setFavorites([...favorites, { game_id: gameId }]);
+            setFavorites(prevFavorites => [...prevFavorites, { game_id: gameId }]);
+            console.log("Updated favorites after adding:", [...favorites, { game_id: gameId }]);
         } catch (error) {
             console.error('Error adding to favorites:', error);
         }
@@ -74,7 +80,7 @@ function GamesPage() {
         <>
             <Header />
             <Container>
-                <h1 className="my-4 text-center">Game List</h1>
+                <h1 className="my-4 text-center"><CustomStyledComponent>Game List</CustomStyledComponent></h1>
                 <Row>
                     {games.map((game) => (
                         <Col md={4} key={game.id} className="mb-4">
@@ -98,14 +104,16 @@ function GamesPage() {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button variant="danger" href={game.link} target="_blank" rel="noopener noreferrer">
-                                        More Info
-                                    </Button>
-                                    {!isFavorite(game.id) && (
-                                        <Button variant="primary" onClick={() => handleAddFavorite(game.id)} className="ml-2">
-                                            <FontAwesomeIcon icon={faHeart} />
+                                    <div className="btn-container">
+                                        <Button variant="danger" href={game.link} target="_blank" rel="noopener noreferrer">
+                                            More Info
                                         </Button>
-                                    )}
+                                        {!isFavorite(game.id) && (
+                                            <Button variant="primary" onClick={() => handleAddFavorite(game.id)}>
+                                                <FontAwesomeIcon icon={faHeart} />
+                                            </Button>
+                                        )}
+                                    </div>
                                 </Card.Body>
                             </Card>
                         </Col>

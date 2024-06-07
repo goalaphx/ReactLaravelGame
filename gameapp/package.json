@@ -21,7 +21,8 @@
     "react-multi-select-component": "^4.3.4",
     "react-multiple-select-dropdown-lite": "^2.0.6",
     "react-router-dom": "^6.23.1",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

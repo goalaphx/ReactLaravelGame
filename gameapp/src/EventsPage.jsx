@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import Header from './Header';
+import { CustomStyledComponent } from './App';
 import './EventsPage.css'; // Create a CSS file for additional styling
 
 function EventsPage() {
@@ -24,7 +25,7 @@ function EventsPage() {
         <>
             <Header />
             <Container>
-                <h1 className="my-4 text-center">Events List</h1>
+                <h1 className="my-4 text-center"><CustomStyledComponent>Events List</CustomStyledComponent></h1>
                 <Row>
                     {events.map((event) => (
                         <Col md={6} key={event.id} className="mb-4">

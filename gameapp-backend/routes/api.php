@@ -57,4 +57,11 @@ Route::get('/favorites', [FavoriteController::class, 'getFavorites']);
 Route::get('/notifications/{userId}', [NotificationController::class, 'index']);
 Route::post('notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead']);
 Route::delete('notifications/{id}', [NotificationController::class, 'destroy']);
+Route::get('/user/{id}', [UserController::class, 'getUser']);
+Route::post('/user/update-profile-pic', [UserController::class, 'updateProfilePic']);
+Route::get('/users', [UserController::class, 'listUsers']);
+Route::put('/user/{id}/role', [UserController::class, 'updateUserRole']);
+Route::delete('/user/delete/{id}', [UserController::class, 'deleteUser']);
+
+
 

@@ -75,10 +75,10 @@ function ManageNews() {
                                             <strong>Emulator:</strong> {item.emulator ? item.emulator.name : 'None'}
                                         </div>
                                     </Card.Text>
-                                    <Button variant="primary" onClick={() => handleEdit(item.id)} className="me-2">
+                                    <Button variant="primary" onClick={() => handleEdit(item.id)} className="me-2 mb-2">
                                         Edit
                                     </Button>
-                                    <Button variant="danger" onClick={() => handleDelete(item.id)} className="me-2">
+                                    <Button variant="danger" onClick={() => handleDelete(item.id)} className="me-2 mb-2">
                                         Delete
                                     </Button>
                                 </Card.Body>

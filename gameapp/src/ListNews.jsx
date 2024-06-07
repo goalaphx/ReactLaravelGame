@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import { CustomStyledComponent } from './App';
 import './ListNews.css';
 
 function ListNews() {
@@ -36,7 +37,7 @@ function ListNews() {
         <>
             <Header />
             <Container>
-                <h1 className="my-4 text-center">Latest News</h1>
+                <h1 className="my-4 text-center"><CustomStyledComponent>Latest News</CustomStyledComponent></h1>
                 {news.map((item) => (
                     <Card className="news-card mb-4" key={item.id}>
                         <Row noGutters>

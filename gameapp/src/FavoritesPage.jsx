@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import Header from './Header';
 import './FavoritesPage.css';
+import { CustomStyledComponent } from './App';
 
 function FavoritesPage() {
     const [favorites, setFavorites] = useState([]);
@@ -43,7 +44,7 @@ function FavoritesPage() {
         <>
             <Header />
             <Container>
-                <h1 className="my-4 text-center">Your Favorites</h1>
+                <h1 className="my-4 text-center"><CustomStyledComponent>Your Favorites</CustomStyledComponent></h1>
                 <div className="favorites-container">
                     {favorites.length === 0 ? (
                         <div className="no-items-message">No items here</div>

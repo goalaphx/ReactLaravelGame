@@ -71,9 +71,9 @@ function Header() {
                                     <Nav.Link as={Link} to="/games">Games</Nav.Link>
                                     <Nav.Link as={Link} to="/emus">Emulators</Nav.Link>
                                     <Nav.Link as={Link} to="/events">Events</Nav.Link>
-                                    <Nav.Link as={Link} to="/favorites">Favorites</Nav.Link>
                                     {isAdmin && (
                                         <NavDropdown title="Admin Tools" id="basic-nav-dropdown">
+                                            <NavDropdown.Item as={Link} to="/manage-users">Manage Users</NavDropdown.Item>
                                             <NavDropdown.Item as={Link} to="/">Manage Games</NavDropdown.Item>
                                             <NavDropdown.Item as={Link} to="/listemu">Manage Emulators</NavDropdown.Item>
                                             <NavDropdown.Item as={Link} to="/listplat">Manage Platforms</NavDropdown.Item>
@@ -94,6 +94,7 @@ function Header() {
                         {localStorage.getItem('user-info') &&
                             <Nav>
                                 <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                                    <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
                                     <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                                 </NavDropdown>
                                 <Nav.Item>
