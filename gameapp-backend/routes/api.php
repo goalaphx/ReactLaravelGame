@@ -19,13 +19,13 @@ Route::get('list', [GameController::class, 'list']);
 Route::delete('delete/{id}', [GameController::class, 'delete']);
 Route::get('game/{id}', [GameController::class, 'getGame']);
 Route::post('update/{id}', [GameController::class, 'updateGame']); // Updated route for updating game
-Route::get('search/{key}', [GameController::class, 'search']);
+Route::get('search', [GameController::class, 'search']);
 Route::post('addemu', [EmuController::class, 'addEmulator']);
 Route::get('listemu', [EmuController::class, 'listEmu']);
 Route::delete('deleteemu/{id}', [EmuController::class, 'deleteEmu']);
 Route::get('emu/{id}', [EmuController::class, 'getEmu']);
 Route::post('updateemu/{id}', [EmuController::class, 'updateEmu']); // Updated route for updating emulator
-Route::get('searchemu/{key}', [EmuController::class, 'searchEmu']);
+Route::get('searchemu', [EmuController::class, 'searchEmu']);
 Route::post('addplat', [PlatformController::class, 'addPlatform']);
 Route::get('listplat', [PlatformController::class, 'listPlatform']);
 Route::delete('deleteplat/{id}', [PlatformController::class, 'deletePlatform']);

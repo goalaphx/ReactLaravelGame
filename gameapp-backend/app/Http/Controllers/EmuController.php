@@ -123,10 +123,12 @@ class EmuController extends Controller
         }
     }
 
-    function searchEmu($key)
+    public function searchEmu(Request $request)
     {
-        return Emulator::with('platforms')
-            ->where('name', 'like', "%$key%")
+        $key = $request->input('key');
+        $emulators = Emulator::with('platforms')
+            ->where('name', 'like', "%{$key}%")
             ->get();
+        return response()->json($emulators);
     }
 }

@@ -1,49 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 import { CustomStyledComponent } from './App';
-import './EmuPage.css'; // import the CSS file
+import './EmuPage.css';
 
 function EmuPage() {
     const [emulators, setEmulators] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        async function fetchEmu() {
+        async function fetchData() {
             try {
-                let result = await fetch('http://127.0.0.1:8000/api/listemu');
-                result = await result.json();
-                setEmulators(result);
+                let response = await fetch('http://127.0.0.1:8000/api/listemu');
+                let data = await response.json();
+                setEmulators(data);
+                console.log("Fetched emulators:", data);
             } catch (error) {
                 console.error('Error fetching the emulator list:', error);
             }
         }
 
+        fetchData();
+    }, []);
+
+    useEffect(() => {
         async function fetchFavorites() {
             const userInfo = JSON.parse(localStorage.getItem('user-info'));
-            if (userInfo) {
-                try {
-                    let response = await fetch(`http://127.0.0.1:8000/api/favorites?user_id=${userInfo.id}`);
-                    let data = await response.json();
-                    setFavorites(data);
-                } catch (error) {
-                    console.error('Error fetching favorites:', error);
-                }
+
+            if (!userInfo) {
+                return;
+            }
+
+            try {
+                let response = await fetch(`http://127.0.0.1:8000/api/favorites?user_id=${userInfo.id}`);
+                let data = await response.json();
+                setFavorites(data);
+                console.log("Fetched favorites:", data);
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
             }
         }
 
-        // Load favorites from local storage if available
-        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        setFavorites(storedFavorites);
-
-        fetchEmu();
         fetchFavorites();
     }, []);
 
+    const isFavorite = (emuId) => {
+        const result = favorites.some(favorite => favorite.emulator_id === emuId);
+        console.log(`Emulator ID ${emuId} is favorite:`, result);
+        return result;
+    };
+
     async function handleAddFavorite(emuId) {
         const userInfo = JSON.parse(localStorage.getItem('user-info'));
+
         if (!userInfo) {
             alert('Please login to add favorites');
             return;
@@ -58,28 +70,56 @@ function EmuPage() {
                 body: JSON.stringify({ emulator_id: emuId, user_id: userInfo.id })
             });
             alert('Added to favorites');
-            setFavorites([...favorites, { id: emuId }]);
+            setFavorites(prevFavorites => [...prevFavorites, { emulator_id: emuId }]);
+            console.log("Updated favorites after adding:", [...favorites, { emulator_id: emuId }]);
         } catch (error) {
             console.error('Error adding to favorites:', error);
         }
     }
 
-    const isFavorite = (id) => favorites.some(fav => fav.id === id);
+    const handleSearch = async (event) => {
+        event.preventDefault();
+    
+        let searchUrl = `http://127.0.0.1:8000/api/searchemu?key=${searchQuery}`;
+    
+        try {
+            let response = await fetch(searchUrl);
+            let data = await response.json();
+            setEmulators(data);
+            console.log("Searched emulators:", data);
+        } catch (error) {
+            console.error('Error searching emulators:', error);
+        }
+    };
 
     return (
         <>
             <Header />
             <Container>
                 <h1 className="my-4 text-center"><CustomStyledComponent>Emulator List</CustomStyledComponent></h1>
+                <Form className="mb-4" onSubmit={handleSearch}>
+                    <FormGroup>
+                        <FormLabel>Search Emulator</FormLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Search by name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </FormGroup>
+                    <Button className="mt-4" type="submit" variant="outline-success">
+                        <FontAwesomeIcon icon={faSearch} /> Search
+                    </Button>
+                </Form>
                 <Row>
                     {emulators.map((emu) => (
                         <Col md={4} key={emu.id} className="mb-4">
-                            <Card className="emu-card">
+                            <Card className="game-card">
                                 <Card.Img variant="top" src={`http://127.0.0.1:8000/${emu.image}`} />
                                 <Card.Body>
                                     <Card.Title>{emu.name}</Card.Title>
                                     <Card.Text>
-                                    <strong>Platforms:</strong><br />
+                                        <strong>Platforms:</strong><br />
                                         {emu.platforms.map(platform => (
                                             <div className="platform-image" key={platform.id}>
                                                 <span>{platform.name}</span>
@@ -91,13 +131,11 @@ function EmuPage() {
                                         <Button variant="danger" href={emu.link} target="_blank" rel="noopener noreferrer">
                                             More Info
                                         </Button>
-                                        {
-                                            !isFavorite(emu.id) && (
-                                                <Button variant="primary" onClick={() => handleAddFavorite(emu.id)}>
-                                                    <FontAwesomeIcon icon={faHeart} />
-                                                </Button>
-                                            )
-                                        }
+                                        {!isFavorite(emu.id) && (
+                                            <Button variant="primary" onClick={() => handleAddFavorite(emu.id)}>
+                                                <FontAwesomeIcon icon={faHeart} />
+                                            </Button>
+                                        )}
                                     </div>
                                 </Card.Body>
                             </Card>

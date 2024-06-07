@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 import { CustomStyledComponent } from './App';
 import './GamePage.css';
@@ -9,6 +9,7 @@ import './GamePage.css';
 function GamesPage() {
     const [games, setGames] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         async function fetchData() {
@@ -76,11 +77,39 @@ function GamesPage() {
         }
     }
 
+    const handleSearch = async (event) => {
+        event.preventDefault();
+    
+        let searchUrl = `http://127.0.0.1:8000/api/search?key=${searchQuery}`;
+    
+        try {
+            let response = await fetch(searchUrl);
+            let data = await response.json();
+            setGames(data);
+            console.log("Searched games:", data);
+        } catch (error) {
+            console.error('Error searching games:', error);
+        }
+    };
     return (
         <>
             <Header />
             <Container>
                 <h1 className="my-4 text-center"><CustomStyledComponent>Game List</CustomStyledComponent></h1>
+                <Form className="mb-4" onSubmit={handleSearch}>
+                    <FormGroup>
+                        <FormLabel>Search Query</FormLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Search by name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </FormGroup>
+                    <Button className="mt-4" type="submit" variant="outline-success">
+                        <FontAwesomeIcon icon={faSearch} /> Search
+                    </Button>
+                </Form>
                 <Row>
                     {games.map((game) => (
                         <Col md={4} key={game.id} className="mb-4">
