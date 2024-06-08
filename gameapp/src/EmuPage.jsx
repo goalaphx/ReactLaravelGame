@@ -8,8 +8,10 @@ import './EmuPage.css';
 
 function EmuPage() {
     const [emulators, setEmulators] = useState([]);
+    const [platforms, setPlatforms] = useState([]); // State to store platforms
     const [favorites, setFavorites] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedPlatform, setSelectedPlatform] = useState(''); // State for selected platform
 
     useEffect(() => {
         async function fetchData() {
@@ -24,6 +26,21 @@ function EmuPage() {
         }
 
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        async function fetchPlatforms() {
+            try {
+                let response = await fetch('http://127.0.0.1:8000/api/listplat');
+                let data = await response.json();
+                setPlatforms(data);
+                console.log("Fetched platforms:", data);
+            } catch (error) {
+                console.error('Error fetching the platform list:', error);
+            }
+        }
+
+        fetchPlatforms();
     }, []);
 
     useEffect(() => {
@@ -81,6 +98,9 @@ function EmuPage() {
         event.preventDefault();
     
         let searchUrl = `http://127.0.0.1:8000/api/searchemu?key=${searchQuery}`;
+        if (selectedPlatform) {
+            searchUrl += `&platform_id=${selectedPlatform}`;
+        }
     
         try {
             let response = await fetch(searchUrl);
@@ -106,6 +126,19 @@ function EmuPage() {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Filter by Platform</FormLabel>
+                        <FormControl
+                            as="select"
+                            value={selectedPlatform}
+                            onChange={(e) => setSelectedPlatform(e.target.value)}
+                        >
+                            <option value="">All Platforms</option>
+                            {platforms.map((platform) => (
+                                <option key={platform.id} value={platform.id}>{platform.name}</option>
+                            ))}
+                        </FormControl>
                     </FormGroup>
                     <Button className="mt-4" type="submit" variant="outline-success">
                         <FontAwesomeIcon icon={faSearch} /> Search

@@ -20,6 +20,7 @@ Route::delete('delete/{id}', [GameController::class, 'delete']);
 Route::get('game/{id}', [GameController::class, 'getGame']);
 Route::post('update/{id}', [GameController::class, 'updateGame']); // Updated route for updating game
 Route::get('search', [GameController::class, 'search']);
+Route::get('filterGames', [GameController::class, 'filterGames']);
 Route::post('addemu', [EmuController::class, 'addEmulator']);
 Route::get('listemu', [EmuController::class, 'listEmu']);
 Route::delete('deleteemu/{id}', [EmuController::class, 'deleteEmu']);
@@ -44,6 +45,7 @@ Route::get('events/{id}', [EventController::class, 'getEvent']);
 Route::post('events/update/{id}', [EventController::class, 'updateEvent']);
 Route::delete('events/delete/{id}', [EventController::class, 'delete']);
 Route::get('events/search/{key}', [EventController::class, 'search']);
+Route::get('events/game/{gameId}', [EventController::class, 'listByGame']);
 Route::post('/news/add', [NewsController::class, 'addNews']);
 Route::get('/news/list', [NewsController::class, 'listNews']);
 Route::get('/news/list', [NewsController::class, 'list']);

@@ -8,15 +8,23 @@ import './EventsPage.css';
 
 function EventsPage() {
     const [events, setEvents] = useState([]);
+    const [games, setGames] = useState([]);
+    const [selectedGame, setSelectedGame] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchEvents();
+        fetchGames();
     }, []);
 
-    const fetchEvents = async () => {
+    const fetchEvents = async (gameId = '') => {
+        let url = 'http://127.0.0.1:8000/api/events/list';
+        if (gameId) {
+            url = `http://127.0.0.1:8000/api/events/game/${gameId}`;
+        }
+        
         try {
-            let result = await fetch('http://127.0.0.1:8000/api/events/list');
+            let result = await fetch(url);
             result = await result.json();
             setEvents(result);
             console.log("Fetched events:", result);
@@ -25,11 +33,22 @@ function EventsPage() {
         }
     };
 
+    const fetchGames = async () => {
+        try {
+            let result = await fetch('http://127.0.0.1:8000/api/list');
+            result = await result.json();
+            setGames(result);
+            console.log("Fetched games:", result);
+        } catch (error) {
+            console.error('Error fetching the game list:', error);
+        }
+    };
+
     const handleSearch = async (event) => {
         event.preventDefault();
     
         if (!searchQuery.trim()) {
-            fetchEvents();
+            fetchEvents(selectedGame);
             return;
         }
 
@@ -45,6 +64,12 @@ function EventsPage() {
         }
     };
 
+    const handleGameChange = (event) => {
+        const gameId = event.target.value;
+        setSelectedGame(gameId);
+        fetchEvents(gameId);
+    };
+
     return (
         <>
             <Header />
@@ -52,7 +77,7 @@ function EventsPage() {
                 <h1 className="my-4 text-center"><CustomStyledComponent>Events List</CustomStyledComponent></h1>
                 <Form className="mb-4" onSubmit={handleSearch}>
                     <FormGroup>
-                        <FormLabel>Search Query</FormLabel>
+                        <FormLabel>Search Event</FormLabel>
                         <FormControl
                             type="text"
                             placeholder="Search by name or description..."
@@ -64,6 +89,15 @@ function EventsPage() {
                         <FontAwesomeIcon icon={faSearch} /> Search
                     </Button>
                 </Form>
+                <FormGroup>
+                    <FormLabel>Filter by Game</FormLabel>
+                    <FormControl  className="mb-4" as="select" value={selectedGame} onChange={handleGameChange}>
+                        <option value="">All Games</option>
+                        {games.map(game => (
+                            <option key={game.id} value={game.id}>{game.name}</option>
+                        ))}
+                    </FormControl>
+                </FormGroup>
                 <Row>
                     {events.map((event) => (
                         <Col md={6} key={event.id} className="mb-4">

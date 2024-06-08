@@ -109,6 +109,8 @@ class GameController extends Controller
         $games = Game::where('name', 'like', "%{$key}%")->with(['platforms', 'categories'])->get();
         return response()->json($games);
     }
+
+    
     
 
 

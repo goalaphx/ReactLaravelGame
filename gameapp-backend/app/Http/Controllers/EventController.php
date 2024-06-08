@@ -117,4 +117,11 @@ class EventController extends Controller
             ->orWhere('description', 'LIKE', "%$key%")
             ->get();
     }
+
+    public function listByGame($gameId)
+{
+    $events = Event::with('game')->where('game_id', $gameId)->get();
+    return response()->json($events, 200);
+}
+
 }

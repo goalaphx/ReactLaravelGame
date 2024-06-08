@@ -126,9 +126,23 @@ class EmuController extends Controller
     public function searchEmu(Request $request)
     {
         $key = $request->input('key');
-        $emulators = Emulator::with('platforms')
-            ->where('name', 'like', "%{$key}%")
-            ->get();
+        $platformId = $request->input('platform_id');
+    
+        $query = Emulator::with('platforms');
+    
+        if ($key) {
+            $query->where('name', 'like', "%{$key}%");
+        }
+    
+        if ($platformId) {
+            $query->whereHas('platforms', function ($q) use ($platformId) {
+                $q->where('platform_id', $platformId);
+            });
+        }
+    
+        $emulators = $query->get();
         return response()->json($emulators);
     }
+    
+    
 }
