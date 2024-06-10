@@ -7,7 +7,7 @@
 }
 
 .emu-card img {
-    height: 400px; /* Set a fixed height for the images */
+    height: 100px ;  /* Set a fixed height for the images */
     object-fit: cover; /* Ensure the image covers the specified area while maintaining aspect ratio */
     object-position: center; /* Center the image within the specified area */
     width: 100%;
@@ -63,3 +63,51 @@
     height: 40px; /* Adjust height as needed */
     margin-left: 5px; /* Add margin for spacing */
 }
+
+/* Filter Form Styling */
+.filter-form {
+    background-color: #f8f9fa; /* Light background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for better distinction */
+}
+
+.filter-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da; /* Light border color */
+    font-size: 1rem;
+}
+
+.platform-select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+}
+
+.search-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button .fa-search {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.no-emulators-found {
+    color: red;
+    border: 2px solid red;
+    padding: 10px;
+    background-color: yellow;
+}
+

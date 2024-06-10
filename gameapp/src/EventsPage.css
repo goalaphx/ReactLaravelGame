@@ -63,3 +63,41 @@
     margin-right: auto;
     
 }
+
+/* EventsPage.css */
+
+/* Styling for event filter form */
+.event-filter-form {
+    background-color: #f8f9fa; /* Light background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for better distinction */
+}
+
+.event-filter-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.search-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button .fa-search {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Styling for game select */
+.event-filter-form select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+    width: 100%;
+}
+

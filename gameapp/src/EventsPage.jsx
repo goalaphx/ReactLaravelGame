@@ -75,8 +75,8 @@ function EventsPage() {
             <Header />
             <Container>
                 <h1 className="my-4 text-center"><CustomStyledComponent>Events List</CustomStyledComponent></h1>
-                <Form className="mb-4" onSubmit={handleSearch}>
-                    <FormGroup>
+                <Form className="mb-4 event-filter-form" onSubmit={handleSearch}>
+                    <FormGroup className="mb-4">
                         <FormLabel>Search Event</FormLabel>
                         <FormControl
                             type="text"
@@ -85,19 +85,22 @@ function EventsPage() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </FormGroup>
-                    <Button className="mt-4" type="submit" variant="outline-success">
+                    <FormGroup className="mb-4">
+                        <FormLabel>Filter by Game</FormLabel>
+                        <FormControl as="select" value={selectedGame} onChange={handleGameChange}>
+                            <option value="">All Games</option>
+                            {games.map(game => (
+                                <option key={game.id} value={game.id}>{game.name}</option>
+                            ))}
+                        </FormControl>
+                    </FormGroup>
+                    <Button className="mt-4 search-button" type="submit" variant="outline-success">
                         <FontAwesomeIcon icon={faSearch} /> Search
                     </Button>
                 </Form>
-                <FormGroup>
-                    <FormLabel>Filter by Game</FormLabel>
-                    <FormControl  className="mb-4" as="select" value={selectedGame} onChange={handleGameChange}>
-                        <option value="">All Games</option>
-                        {games.map(game => (
-                            <option key={game.id} value={game.id}>{game.name}</option>
-                        ))}
-                    </FormControl>
-                </FormGroup>
+                {events.length === 0 ? (
+                <h1 className="text-center no-events-found" style={{ color: 'red', border: '2px solid red', padding: '10px' ,backgroundColor: 'yellow'}}>No Events Found</h1>
+            ) : (
                 <Row>
                     {events.map((event) => (
                         <Col md={6} key={event.id} className="mb-4">
@@ -117,6 +120,7 @@ function EventsPage() {
                         </Col>
                     ))}
                 </Row>
+            )}
             </Container>
         </>
     );

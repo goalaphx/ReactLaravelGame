@@ -7,9 +7,9 @@
 }
 
 .game-card img {
-    height: 400px; /* Set a fixed height for the images */
-    object-fit: cover; /* Ensure the image covers the specified area while maintaining aspect ratio */
-    object-position: center; /* Center the image within the specified area */
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
     width: 100%;
 }
 
@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48%; /* Ensure the buttons don't overlap and have equal width */
+    width: 48%;
 }
 
 .game-card .btn-container {
@@ -42,7 +42,7 @@
 
 .platform-container img,
 .category-container img {
-    width: 30px; /* Adjust the size of the platform image and category logo */
+    width: 30px;
     height: 30px;
     margin-right: 5px;
 }
@@ -59,7 +59,28 @@
 }
 
 .platform-image img {
-    width: 40px; /* Adjust width as needed */
-    height: 40px; /* Adjust height as needed */
-    margin-left: 5px; /* Add margin for spacing */
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+form .form-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+form .form-control {
+    flex: 1;
+}
+
+form .btn {
+    margin-left: 10px;
 }

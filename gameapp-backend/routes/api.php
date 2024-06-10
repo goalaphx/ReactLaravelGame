@@ -20,7 +20,8 @@ Route::delete('delete/{id}', [GameController::class, 'delete']);
 Route::get('game/{id}', [GameController::class, 'getGame']);
 Route::post('update/{id}', [GameController::class, 'updateGame']); // Updated route for updating game
 Route::get('search', [GameController::class, 'search']);
-Route::get('filterGames', [GameController::class, 'filterGames']);
+Route::get('filterByPlatform', [GameController::class, 'filterByPlatform']);
+Route::get('filterByCategory', [GameController::class, 'filterByCategory']);
 Route::post('addemu', [EmuController::class, 'addEmulator']);
 Route::get('listemu', [EmuController::class, 'listEmu']);
 Route::delete('deleteemu/{id}', [EmuController::class, 'deleteEmu']);

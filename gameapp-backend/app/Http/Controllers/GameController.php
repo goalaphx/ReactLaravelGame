@@ -110,6 +110,43 @@ class GameController extends Controller
         return response()->json($games);
     }
 
+
+    public function filterByPlatform(Request $request)
+{
+    try {
+        $platformId = $request->input('platform_id');
+        if (!$platformId) {
+            return response()->json(['error' => 'Platform ID is required'], 400);
+        }
+
+        $games = Game::whereHas('platforms', function ($query) use ($platformId) {
+            $query->where('platforms.id', $platformId);  // Specify the table name
+        })->with(['platforms', 'categories'])->get();
+
+        return response()->json($games, 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
+    }
+}
+
+    public function filterByCategory(Request $request)
+    {
+        try {
+            $categoryId = $request->input('category_id');
+            if (!$categoryId) {
+                return response()->json(['error' => 'Category ID is required'], 400);
+            }
+    
+            $games = Game::whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('categories.id', $categoryId);  // Specify the table name
+            })->with(['platforms', 'categories'])->get();
+    
+            return response()->json($games, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
+        }
+    }
+    
     
     
 

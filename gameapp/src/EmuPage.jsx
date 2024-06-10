@@ -117,7 +117,7 @@ function EmuPage() {
             <Header />
             <Container>
                 <h1 className="my-4 text-center"><CustomStyledComponent>Emulator List</CustomStyledComponent></h1>
-                <Form className="mb-4" onSubmit={handleSearch}>
+                <Form className="mb-4 filter-form" onSubmit={handleSearch}>
                     <FormGroup>
                         <FormLabel>Search Emulator</FormLabel>
                         <FormControl
@@ -125,6 +125,7 @@ function EmuPage() {
                             placeholder="Search by name..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            className="search-input"
                         />
                     </FormGroup>
                     <FormGroup>
@@ -133,6 +134,7 @@ function EmuPage() {
                             as="select"
                             value={selectedPlatform}
                             onChange={(e) => setSelectedPlatform(e.target.value)}
+                            className="platform-select"
                         >
                             <option value="">All Platforms</option>
                             {platforms.map((platform) => (
@@ -140,10 +142,13 @@ function EmuPage() {
                             ))}
                         </FormControl>
                     </FormGroup>
-                    <Button className="mt-4" type="submit" variant="outline-success">
+                    <Button className="mt-4 search-button" type="submit" variant="outline-success">
                         <FontAwesomeIcon icon={faSearch} /> Search
                     </Button>
                 </Form>
+                {emulators.length === 0 ? (
+                <h1 className="text-center no-emulators-found">No Emulators Found</h1>
+            ) : (
                 <Row>
                     {emulators.map((emu) => (
                         <Col md={4} key={emu.id} className="mb-4">
@@ -175,6 +180,7 @@ function EmuPage() {
                         </Col>
                     ))}
                 </Row>
+            )}
             </Container>
         </>
     );
