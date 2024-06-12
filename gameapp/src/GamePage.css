@@ -64,23 +64,4 @@
     margin-left: 5px;
 }
 
-/* Form Styling */
-form {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
 
-form .form-group {
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-form .form-control {
-    flex: 1;
-}
-
-form .btn {
-    margin-left: 10px;
-}
